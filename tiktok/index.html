@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AIMP - TikTok sign-in</title>
+<style>
+:root{--bg:#f7f7f5;--fg:#1d1d1b;--muted:#6b6b66;--line:#e3e3df}
+@media (prefers-color-scheme:dark){:root{--bg:#161615;--fg:#ececea;--muted:#9a9a94;--line:#33332f}}
+body{background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif;margin:0 auto;max-width:640px;padding:32px 16px}
+a{color:inherit} .muted{color:var(--muted)} code{word-break:break-all}
+</style></head><body>
+<h1>AIMP - TikTok sign-in</h1>
+<p id="msg">Handing your TikTok sign-in back to AIMP on this computer…</p>
+<p id="fallback" class="muted" hidden>If nothing happens, <a id="go" href="#">continue to AIMP</a>. AIMP must be running on this computer.</p>
+<p class="muted small">AIMP is a personal film-making app. This page only passes TikTok's sign-in code to the AIMP app running on
+your own computer (127.0.0.1); nothing is stored here. <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a></p>
+<script>
+// TikTok only returns to a registered https address; AIMP runs at http://127.0.0.1:8788 on the user's own PC.
+const q = location.search;
+if (/[?&](code|error)=/.test(q)) {
+  const to = 'http://127.0.0.1:8788/api/tiktok/callback' + q;
+  document.getElementById('go').href = to;
+  document.getElementById('fallback').hidden = false;
+  location.replace(to);
+} else {
+  document.getElementById('msg').textContent = 'This page is where TikTok returns after you sign in to AIMP. Start the sign-in from AIMP.';
+}
+</script>
+</body></html>
